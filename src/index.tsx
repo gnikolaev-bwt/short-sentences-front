@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import 'src/styles/index.css';
+import { AppRouter } from 'src/components/templates';
+
+ReactDOM.render(<AppRouter />, document.getElementById('root'));
