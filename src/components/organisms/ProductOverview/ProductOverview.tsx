@@ -1,15 +1,25 @@
 import { FC } from 'react';
+import { Card } from 'react-bootstrap';
+import { IProduct } from 'src/types';
+import { getProductImageUrl } from 'src/utils';
 
-export const ProductOverview: FC = () => {
+export const ProductOverview: FC<IProps> = (props) => {
+  const { asin } = props;
   return (
-    <>
-      <h4>Overview</h4>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
-        beatae consequuntur culpa, dolor eligendi eos est excepturi fuga, ipsum
-        iure minus modi mollitia, nisi perferendis possimus quis ratione rem
-        voluptate.
-      </p>
-    </>
+    <Card>
+      <div
+        style={{
+          height: '10rem',
+          background: `url(${getProductImageUrl(asin)}) center no-repeat`
+        }}
+      />
+      <Card.Body>
+        <Card.Title>ASIN: {asin}</Card.Title>
+      </Card.Body>
+    </Card>
   );
 };
+
+interface IProps {
+  asin: IProduct['asin'];
+}

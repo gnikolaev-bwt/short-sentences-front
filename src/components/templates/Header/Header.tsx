@@ -4,7 +4,7 @@ import { RoutesEnum } from 'src/routes';
 
 export const Header = () => {
   return (
-    <Navbar>
+    <Navbar bg='dark' variant='dark'>
       <Container>
         <Navbar.Brand as={Link} to={RoutesEnum.Home}>
           Short sentences

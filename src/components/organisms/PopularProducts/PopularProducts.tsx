@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardGroup, Spinner } from 'react-bootstrap';
-import styles from './PopularProducuts.module.css';
+import { AiOutlineStar } from 'react-icons/ai';
+import { Card, CardGroup } from 'react-bootstrap';
+import { HashLoader } from 'react-spinners';
 import { ProductsService } from 'src/api';
 import { IProduct } from 'src/types';
 import { RoutesEnum } from 'src/routes';
-import { truncateSentence } from 'src/utils';
+import { getProductImageUrl, truncateSentence } from 'src/utils';
+import styles from './PopularProducuts.module.css';
 
 export const PopularProducts: FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -17,28 +19,37 @@ export const PopularProducts: FC = () => {
   }, []);
 
   return (
-    <CardGroup className='justify-content-center mt-5'>
-      {!products.length && (
-        <Spinner animation='border'>
-          <span className='visually-hidden' />
-        </Spinner>
+    <CardGroup className={styles.cardGroup}>
+      {!products.length ? (
+        <HashLoader />
+      ) : (
+        products.slice(0, 3).map((product, i) => {
+          const productImageUrl = getProductImageUrl(product.asin);
+          return (
+            <Card
+              key={i}
+              className={styles.card}
+              as={Link}
+              to={RoutesEnum.ProductDetails.replace(':asin', product.asin)}
+            >
+              <div
+                style={{
+                  height: '10rem',
+                  background: `url(${productImageUrl}) no-repeat center`
+                }}
+              />
+              <Card.Body>
+                <Card.Title>{truncateSentence(product.name)}</Card.Title>
+              </Card.Body>
+              <Card.Footer>
+                <small className='text-muted'>
+                  Most popular <AiOutlineStar />
+                </small>
+              </Card.Footer>
+            </Card>
+          );
+        })
       )}
-      {products.slice(0, 3).map((product, i) => (
-        <Card
-          key={i}
-          className={styles.card}
-          as={Link}
-          to={RoutesEnum.ProductDetails.replace(':asin', product.asin)}
-        >
-          <div style={{ height: '10rem', background: '#2b2b2b' }} />
-          <Card.Body>
-            <Card.Title>{truncateSentence(product.name)}</Card.Title>
-          </Card.Body>
-          <Card.Footer>
-            <small className='text-muted'>Sample report</small>
-          </Card.Footer>
-        </Card>
-      ))}
     </CardGroup>
   );
 };

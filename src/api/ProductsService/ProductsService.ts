@@ -7,6 +7,6 @@ export class ProductsService {
     return createAsyncPromise<IProduct[]>(popularProducts, 500);
   };
   static getProductClusters = (asin: IProduct['asin']) => {
-    return createAsyncPromise<ICluster[]>(clustersForProduct[asin], 500);
+    return createAsyncPromise<ICluster[]>(clustersForProduct[asin], 2000);
   };
 }
