@@ -1,19 +1,21 @@
 import { FC, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { IReview } from 'src/types';
-import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
-import { ReviewsService } from 'src/api';
+import { IProduct, ICluster } from 'src/types';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { ProductsService } from 'src/api';
 import { ProductOverview, ReviewSummary } from 'src/components/organisms';
+import { RouteComponentProps } from 'react-router-dom';
 
-export const ProductDetails: FC = () => {
-  const [reviews, setReviews] = useState<IReview[]>([]);
+export const ProductDetails: FC<IProps> = (props) => {
+  const { asin } = props.match.params;
+  const [clusters, setClusters] = useState<ICluster[]>([]);
 
   useEffect(() => {
-    ReviewsService.getPopularReviews().then((data) => {
-      setReviews(data);
+    ProductsService.getProductClusters(asin).then((data) => {
+      setClusters(data);
     });
-  }, []);
+  }, [asin]);
 
   return (
     <Container>
@@ -38,9 +40,15 @@ export const ProductDetails: FC = () => {
         </Col>
         <Col md={10} className='rounded-3 border p-4'>
           <ProductOverview />
-          <ReviewSummary reviews={reviews} />
+          <ReviewSummary clusters={clusters} />
         </Col>
       </Row>
     </Container>
   );
 };
+
+interface IRouteParams {
+  asin: IProduct['asin'];
+}
+
+interface IProps extends RouteComponentProps<IRouteParams> {}

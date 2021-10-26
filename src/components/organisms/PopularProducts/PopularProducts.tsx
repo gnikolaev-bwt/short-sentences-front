@@ -2,42 +2,40 @@ import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardGroup, Spinner } from 'react-bootstrap';
 import styles from './PopularProducuts.module.css';
-import { ReviewsService } from 'src/api';
-import { IReview } from 'src/types';
-import { Routes } from 'src/routes';
+import { ProductsService } from 'src/api';
+import { IProduct } from 'src/types';
+import { RoutesEnum } from 'src/routes';
+import { truncateSentence } from 'src/utils';
 
 export const PopularProducts: FC = () => {
-  const [reviews, setReviews] = useState<IReview[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
-    ReviewsService.getPopularReviews().then((data) => {
-      setReviews(data);
+    ProductsService.getPopularProducts().then((data) => {
+      setProducts(data);
     });
   }, []);
 
   return (
     <CardGroup className='justify-content-center mt-5'>
-      {!reviews.length && (
+      {!products.length && (
         <Spinner animation='border'>
           <span className='visually-hidden' />
         </Spinner>
       )}
-      {reviews.slice(0, 3).map((review, i) => (
+      {products.slice(0, 3).map((product, i) => (
         <Card
           key={i}
           className={styles.card}
           as={Link}
-          to={Routes.ProductDetails}
+          to={RoutesEnum.ProductDetails.replace(':asin', product.asin)}
         >
           <div style={{ height: '10rem', background: '#2b2b2b' }} />
           <Card.Body>
-            <Card.Title>{review.cluster_description}</Card.Title>
-            <Card.Text>{review.group}</Card.Text>
+            <Card.Title>{truncateSentence(product.name)}</Card.Title>
           </Card.Body>
           <Card.Footer>
-            <small className='text-muted'>
-              Statements total: {review.statements}
-            </small>
+            <small className='text-muted'>Sample report</small>
           </Card.Footer>
         </Card>
       ))}

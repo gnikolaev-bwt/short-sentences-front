@@ -12,9 +12,9 @@ export const AppRouter: FC = () => {
             key={i}
             exact
             path={route.path}
-            render={() => (
+            render={(props) => (
               <Layout>
-                <route.component />
+                <route.component {...props} />
               </Layout>
             )}
           />

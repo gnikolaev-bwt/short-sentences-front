@@ -1,20 +1,22 @@
 import { FC } from 'react';
-import { IReview } from 'src/types';
+import { ICluster } from 'src/types';
 import { Spinner } from 'react-bootstrap';
-import { ReviewDetail } from 'src/components/molecules';
+import { ClusterDetails } from 'src/components/molecules';
 
 export const ReviewSummary: FC<IProps> = (props) => {
-  const { reviews } = props;
+  const { clusters } = props;
   return (
     <>
       <h4>Review Summary</h4>
       <div className='mt-3'>
-        {!reviews.length ? (
+        {!clusters.length ? (
           <Spinner animation='border' className='m-2'>
             <span className='visually-hidden' />
           </Spinner>
         ) : (
-          reviews.map((review, i) => <ReviewDetail key={i} review={review} />)
+          clusters.map((cluster, i) => (
+            <ClusterDetails key={i} cluster={cluster} />
+          ))
         )}
       </div>
     </>
@@ -22,5 +24,5 @@ export const ReviewSummary: FC<IProps> = (props) => {
 };
 
 interface IProps {
-  reviews: IReview[];
+  clusters: ICluster[];
 }

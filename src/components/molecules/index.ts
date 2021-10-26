@@ -1,1 +1,1 @@
-export * from './ReviewDetails/ReviewDetail';
+export * from './ClusterDetails/ClusterDetails';

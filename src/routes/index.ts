@@ -1,17 +1,23 @@
+import { FC } from 'react';
 import { Home, ProductDetails } from 'src/components/pages';
 
-export enum Routes {
+export enum RoutesEnum {
   Home = '/',
-  ProductDetails = '/details'
+  ProductDetails = '/:asin'
 }
 
-export const routes = [
+export const routes: IRoute[] = [
   {
-    path: Routes.Home,
+    path: RoutesEnum.Home,
     component: Home
   },
   {
-    path: Routes.ProductDetails,
+    path: RoutesEnum.ProductDetails,
     component: ProductDetails
   }
 ];
+
+interface IRoute {
+  path: RoutesEnum;
+  component: FC<any>;
+}

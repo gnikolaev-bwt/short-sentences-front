@@ -1,0 +1,66 @@
+.card {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.cardHeader {
+    display: flex;
+}
+
+.cardHeader:hover {
+    cursor: pointer;
+}
+
+.card.focused {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.progressBar {
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.bgSuccess {
+    background-color: #2caf61;
+}
+
+.bgDanger {
+    background-color: #da3636;
+}
+
+.colorSuccess {
+    color: #2caf61;
+}
+
+.colorDanger {
+    color: #da3636;
+}
+
+.separateLine {
+    position: relative;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.15);
+    margin: 2rem 0 1rem;
+}
+
+.separateLine::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    transform: rotate(45deg) translate(-37.5%, -37.5%);
+    background-color: #fff;
+}
+
+.separateLine.success::after {
+    left: 15%;
+}
+
+.separateLine.danger::after {
+    right: 15%;
+}

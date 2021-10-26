@@ -1,1 +1,1 @@
-export * from './ReviewsService/ReviewsService';
+export * from 'src/api/ProductsService/ProductsService';
