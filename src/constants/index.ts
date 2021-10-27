@@ -1,6 +1,6 @@
 import { IProduct, ICluster } from 'src/types';
 
-export const popularProducts: IProduct[] = [
+export const POPULAR_PRODUCTS: IProduct[] = [
   {
     name: 'Samsung Electronics Galaxy Watch 4 Classic 46mm Smartwatch with ECG Monitor Tracker for Health Fitness Running Sleep Cycles GPS Fall Detection Bluetooth US Version, Black',
     asin: 'B096BKFG57',
@@ -18,7 +18,7 @@ export const popularProducts: IProduct[] = [
   }
 ];
 
-export const clustersForProduct: Record<IProduct['asin'], ICluster[]> = {
+export const CLUSTERS_FOR_PRODUCT: Record<IProduct['asin'], ICluster[]> = {
   B096BKFG57: [
     {
       cluster_description: 'good screen',
