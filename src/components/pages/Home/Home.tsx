@@ -15,15 +15,24 @@ import styles from './Home.module.css';
 
 export const Home: FC = () => {
   const history = useHistory();
-  const [amazonAsin, setAmazonAsin] = useState('');
+  const [asinValue, setAsinValue] = useState('');
+  const [asinError, setAsinEror] = useState('');
 
-  const handleSubmit = (e: FormEvent<any>) => {
-    e.preventDefault();
-    const asin = getAsinFromString(amazonAsin);
+  const handleAsinChange = (value: string) => {
+    const asin = getAsinFromString(value);
     if (!asin) {
-      return;
+      setAsinEror('Incorrect Amazon product url or asin, please, try again');
+    } else {
+      setAsinEror('');
+      setAsinValue(asin);
     }
-    history.push(RoutesEnum.ProductDetails.replace(':asin', asin));
+  }
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (asinValue) {
+      history.push(RoutesEnum.ProductDetails.replace(':asin', asinValue));
+    }
   };
 
   return (
@@ -36,11 +45,11 @@ export const Home: FC = () => {
       <form onSubmit={handleSubmit}>
         <Row className='g-2 mt-2'>
           <Col md={8}>
-            <FloatingLabel label='Amazon URL or ASIN'>
+            <FloatingLabel controlId='asin' label='Amazon URL or ASIN'>
               <Form.Control
-                placeholder='https://amazon.com/'
-                value={amazonAsin}
-                onChange={(e) => setAmazonAsin(e.target.value)}
+                placeholder={'https://amazon.com'}
+                onChange={(e) => handleAsinChange(e.target.value)}
+                isInvalid={!!asinError}
               />
             </FloatingLabel>
           </Col>
