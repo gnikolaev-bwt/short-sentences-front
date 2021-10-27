@@ -1,0 +1,18 @@
+.starWrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+}
+
+.starWrapper.filled {
+    color: #FED900
+}
+
+.ratingWrapper {
+    height: 100%;
+    margin-left: 0.8rem;
+}
+
+.rating {
+    font-size: 1.4rem;
+}

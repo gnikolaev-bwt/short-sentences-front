@@ -1,27 +1,21 @@
-import { IProduct, ICluster } from 'src/types';
+import { IProductInfo, ICluster } from 'src/types';
 
-export const POPULAR_PRODUCTS: IProduct[] = [
+export const POPULAR_PRODUCTS: IProductInfo[] = [
   {
-    name: 'Samsung Electronics Galaxy Watch 4 Classic 46mm Smartwatch with ECG Monitor Tracker for Health Fitness Running Sleep Cycles GPS Fall Detection Bluetooth US Version, Black',
     asin: 'B096BKFG57',
-    language: 'En',
-    imageUrl: 'https://m.media-amazon.com/images/I/713eQBXJpGL._AC_SX569_.jpg'
+    lang: 'En'
   },
   {
-    name: 'Apple AirPods with Charging Case Previous Model',
     asin: 'B01MQWUXZS',
-    language: 'En',
-    imageUrl: 'https://m.media-amazon.com/images/I/71NTi82uBEL._AC_SL1500_.jpg'
+    lang: 'En'
   },
   {
-    name: 'Fitbit Charge 2 Heart Rate Fitness Wristband Black Large US Version 1 Count',
     asin: 'B01K9S260E',
-    language: 'En',
-    imageUrl: 'https://m.media-amazon.com/images/I/81cp0NTn-EL._AC_SX425_.jpg'
+    lang: 'En'
   }
 ];
 
-export const CLUSTERS_FOR_PRODUCT: Record<IProduct['asin'], ICluster[]> = {
+export const CLUSTERS_FOR_PRODUCT: Record<IProductInfo['asin'], ICluster[]> = {
   B096BKFG57: [
     {
       cluster_description: 'good screen',

@@ -17,12 +17,12 @@ export const Home: FC = () => {
   const history = useHistory();
   const [asinValue, setAsinValue] = useState('');
   const [asinError, setAsinEror] = useState('');
-  const [languageValue, setLanguageValue] = useState('En');
+  const [langValue, setLanguageValue] = useState('En');
 
   const handleAsinChange = (value: string) => {
     const asin = getAsinFromString(value);
     if (!asin) {
-      setAsinEror('Incorrect Amazon product url or asin, please, try again');
+      setAsinEror('Incorrect Amazon product URL or ASIN');
     } else {
       setAsinEror('');
       setAsinValue(asin);
@@ -36,7 +36,7 @@ export const Home: FC = () => {
     } else {
       const productDetailsUrl = getRouteUrl(Routes.ProductDetails, {
         asin: asinValue,
-        language: languageValue
+        lang: langValue
       });
       history.push(productDetailsUrl);
     }
@@ -49,7 +49,7 @@ export const Home: FC = () => {
           <h2>Review Summarizer</h2>
         </Col>
       </Row>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete='off'>
         <Row className='g-2 mt-2'>
           <Col md={8}>
             <FloatingLabel controlId='asin' label='Amazon URL or ASIN'>
@@ -58,6 +58,12 @@ export const Home: FC = () => {
                 onChange={(e) => handleAsinChange(e.target.value)}
                 isInvalid={!!asinError}
               />
+              <Form.Control.Feedback
+                className={styles.invalidTooltip}
+                type='invalid'
+              >
+                {asinError}
+              </Form.Control.Feedback>
             </FloatingLabel>
           </Col>
           <Col md={2}>
@@ -68,8 +74,6 @@ export const Home: FC = () => {
                 onChange={(e) => setLanguageValue(e.target.value)}
               >
                 <option value='En'>En</option>
-                <option value='De'>De</option>
-                <option value='Fr'>Fr</option>
               </Form.Control>
             </FloatingLabel>
           </Col>

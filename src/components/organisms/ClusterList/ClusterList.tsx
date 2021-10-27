@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { ICluster } from 'src/types';
 import { ClockLoader } from 'react-spinners';
+import { ICluster } from 'src/types';
+import { CenteredBox } from 'src/components/atoms';
 import { ClusterDetails } from 'src/components/molecules';
 
-export const ReviewSummary: FC<IProps> = (props) => {
+export const ClusterList: FC<IProps> = (props) => {
   const { clusters } = props;
   return (
     <>
@@ -12,10 +13,10 @@ export const ReviewSummary: FC<IProps> = (props) => {
         {!clusters ? (
           <span>No reviews found for this product</span>
         ) : !clusters?.length ? (
-          <div className='w-100 d-flex flex-column align-items-center mt-5'>
+          <CenteredBox>
             <ClockLoader />
             <div className='mt-2'>Please, wait a few seconds</div>
-          </div>
+          </CenteredBox>
         ) : (
           clusters.map((cluster, i) => (
             <ClusterDetails key={i} cluster={cluster} />

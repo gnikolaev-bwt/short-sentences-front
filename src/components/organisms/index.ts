@@ -1,3 +1,4 @@
 export * from './PopularProducts/PopularProducts';
 export * from './ProductOverview/ProductOverview';
-export * from './ReviewSummary/ReviewSummary';
+export * from './ClusterList/ClusterList';
+export * from './ProductAnalogs/ProductAnalogs';

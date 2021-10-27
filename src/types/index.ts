@@ -1,2 +1,3 @@
 export * from './models/ICluster';
-export * from './models/IProduct';
+export * from 'src/types/models/IProductInfo';
+export * from 'src/types/models/IProductDetails';

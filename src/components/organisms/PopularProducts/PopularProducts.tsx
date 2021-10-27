@@ -4,29 +4,36 @@ import { AiOutlineStar } from 'react-icons/ai';
 import { Card, CardGroup } from 'react-bootstrap';
 import { HashLoader } from 'react-spinners';
 import { ProductsService } from 'src/api';
-import { IProduct } from 'src/types';
 import { getRouteUrl, Routes } from 'src/routes';
+import { POPULAR_PRODUCTS } from 'src/constants';
+import { IProductDetails } from 'src/types';
 import { truncateSentence } from 'src/utils';
+import { ImageBlock } from 'src/components/atoms';
 import styles from './PopularProducuts.module.css';
 
 export const PopularProducts: FC = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [popularProductsDetails, setPopularProductsDetails] = useState<
+    IProductDetails[]
+  >([]);
 
   useEffect(() => {
-    ProductsService.getPopularProducts().then((data) => {
-      setProducts(data);
-    });
+    const productsDetailsPromises = POPULAR_PRODUCTS.map(({ asin }) =>
+      ProductsService.getProductDetails(asin)
+    );
+    Promise.all(productsDetailsPromises).then((data) =>
+      setPopularProductsDetails(data)
+    );
   }, []);
 
   return (
     <CardGroup className={styles.cardGroup}>
-      {!products.length ? (
+      {!popularProductsDetails.length ? (
         <HashLoader />
       ) : (
-        products.slice(0, 3).map((product, i) => {
+        popularProductsDetails.slice(0, 3).map((details, i) => {
           const productDetailsUrl = getRouteUrl(Routes.ProductDetails, {
-            asin: product.asin,
-            language: product.language
+            asin: POPULAR_PRODUCTS[i].asin,
+            lang: POPULAR_PRODUCTS[i].lang
           });
           return (
             <Card
@@ -35,15 +42,13 @@ export const PopularProducts: FC = () => {
               as={Link}
               to={productDetailsUrl}
             >
-              <div
-                style={{
-                  height: '10rem',
-                  background: `url(${product.imageUrl}) no-repeat center`,
-                  backgroundSize: '25%'
-                }}
+              <ImageBlock
+                src={details.main_image}
+                height='15rem'
+                bgSize='25%'
               />
               <Card.Body>
-                <Card.Title>{truncateSentence(product.name)}</Card.Title>
+                <Card.Title>{truncateSentence(details.title, 20)}</Card.Title>
               </Card.Body>
               <Card.Footer>
                 <small className='text-muted'>
