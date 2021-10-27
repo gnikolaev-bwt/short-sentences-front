@@ -10,13 +10,14 @@ import {
 } from 'react-bootstrap';
 import { PopularProducts } from 'src/components/organisms';
 import { getAsinFromString } from 'src/utils';
-import { RoutesEnum } from 'src/routes';
+import { getRouteUrl, Routes } from 'src/routes';
 import styles from './Home.module.css';
 
 export const Home: FC = () => {
   const history = useHistory();
   const [asinValue, setAsinValue] = useState('');
   const [asinError, setAsinEror] = useState('');
+  const [languageValue, setLanguageValue] = useState('En');
 
   const handleAsinChange = (value: string) => {
     const asin = getAsinFromString(value);
@@ -26,12 +27,18 @@ export const Home: FC = () => {
       setAsinEror('');
       setAsinValue(asin);
     }
-  }
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (asinValue) {
-      history.push(RoutesEnum.ProductDetails.replace(':asin', asinValue));
+    if (!asinValue) {
+      setAsinEror('This is a required field');
+    } else {
+      const productDetailsUrl = getRouteUrl(Routes.ProductDetails, {
+        asin: asinValue,
+        language: languageValue
+      });
+      history.push(productDetailsUrl);
     }
   };
 
@@ -47,7 +54,7 @@ export const Home: FC = () => {
           <Col md={8}>
             <FloatingLabel controlId='asin' label='Amazon URL or ASIN'>
               <Form.Control
-                placeholder={'https://amazon.com'}
+                placeholder='https://amazon.com'
                 onChange={(e) => handleAsinChange(e.target.value)}
                 isInvalid={!!asinError}
               />
@@ -55,11 +62,15 @@ export const Home: FC = () => {
           </Col>
           <Col md={2}>
             <FloatingLabel label='Select language'>
-              <Form.Select>
+              <Form.Control
+                as='select'
+                className={styles.select}
+                onChange={(e) => setLanguageValue(e.target.value)}
+              >
                 <option value='En'>En</option>
                 <option value='De'>De</option>
                 <option value='Fr'>Fr</option>
-              </Form.Select>
+              </Form.Control>
             </FloatingLabel>
           </Col>
           <Col md={2}>

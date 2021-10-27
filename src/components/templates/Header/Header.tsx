@@ -1,12 +1,12 @@
 import { Container, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { RoutesEnum } from 'src/routes';
+import { Routes } from 'src/routes';
 
 export const Header = () => {
   return (
     <Navbar bg='dark' variant='dark'>
       <Container>
-        <Navbar.Brand as={Link} to={RoutesEnum.Home}>
+        <Navbar.Brand as={Link} to={Routes.Home}>
           Short sentences
         </Navbar.Brand>
         <Navbar.Toggle />

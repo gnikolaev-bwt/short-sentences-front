@@ -5,7 +5,7 @@ import { Card, CardGroup } from 'react-bootstrap';
 import { HashLoader } from 'react-spinners';
 import { ProductsService } from 'src/api';
 import { IProduct } from 'src/types';
-import { RoutesEnum } from 'src/routes';
+import { getRouteUrl, Routes } from 'src/routes';
 import { truncateSentence } from 'src/utils';
 import styles from './PopularProducuts.module.css';
 
@@ -23,12 +23,17 @@ export const PopularProducts: FC = () => {
       {!products.length ? (
         <HashLoader />
       ) : (
-        products.slice(0, 3).map((product, i) => (
+        products.slice(0, 3).map((product, i) => {
+          const productDetailsUrl = getRouteUrl(Routes.ProductDetails, {
+            asin: product.asin,
+            language: product.language
+          });
+          return (
             <Card
               key={i}
               className={styles.card}
               as={Link}
-              to={RoutesEnum.ProductDetails.replace(':asin', product.asin)}
+              to={productDetailsUrl}
             >
               <div
                 style={{
@@ -46,9 +51,9 @@ export const PopularProducts: FC = () => {
                 </small>
               </Card.Footer>
             </Card>
-          )
-        ))
-      }
+          );
+        })
+      )}
     </CardGroup>
   );
 };
