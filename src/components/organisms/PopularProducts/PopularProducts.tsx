@@ -6,7 +6,7 @@ import { HashLoader } from 'react-spinners';
 import { ProductsService } from 'src/api';
 import { IProduct } from 'src/types';
 import { RoutesEnum } from 'src/routes';
-import { getProductImageUrl, truncateSentence } from 'src/utils';
+import { truncateSentence } from 'src/utils';
 import styles from './PopularProducuts.module.css';
 
 export const PopularProducts: FC = () => {
@@ -23,9 +23,7 @@ export const PopularProducts: FC = () => {
       {!products.length ? (
         <HashLoader />
       ) : (
-        products.slice(0, 3).map((product, i) => {
-          const productImageUrl = getProductImageUrl(product.asin);
-          return (
+        products.slice(0, 3).map((product, i) => (
             <Card
               key={i}
               className={styles.card}
@@ -35,7 +33,8 @@ export const PopularProducts: FC = () => {
               <div
                 style={{
                   height: '10rem',
-                  background: `url(${productImageUrl}) no-repeat center`
+                  background: `url(${product.imageUrl}) no-repeat center`,
+                  backgroundSize: '25%'
                 }}
               />
               <Card.Body>
@@ -47,9 +46,9 @@ export const PopularProducts: FC = () => {
                 </small>
               </Card.Footer>
             </Card>
-          );
-        })
-      )}
+          )
+        ))
+      }
     </CardGroup>
   );
 };

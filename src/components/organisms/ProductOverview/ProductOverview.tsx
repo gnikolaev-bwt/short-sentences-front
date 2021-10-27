@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Card } from 'react-bootstrap';
 import { IProduct } from 'src/types';
-import { getProductImageUrl } from 'src/utils';
 
 export const ProductOverview: FC<IProps> = (props) => {
   const { asin } = props;
@@ -10,7 +9,7 @@ export const ProductOverview: FC<IProps> = (props) => {
       <div
         style={{
           height: '10rem',
-          background: `url(${getProductImageUrl(asin)}) center no-repeat`
+          background: '#2b2b2b'
         }}
       />
       <Card.Body>

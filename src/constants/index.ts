@@ -4,17 +4,20 @@ export const POPULAR_PRODUCTS: IProduct[] = [
   {
     name: 'Samsung Electronics Galaxy Watch 4 Classic 46mm Smartwatch with ECG Monitor Tracker for Health Fitness Running Sleep Cycles GPS Fall Detection Bluetooth US Version, Black',
     asin: 'B096BKFG57',
-    language: 'En'
+    language: 'En',
+    imageUrl: 'https://m.media-amazon.com/images/I/713eQBXJpGL._AC_SX569_.jpg'
   },
   {
     name: 'Apple AirPods with Charging Case Previous Model',
     asin: 'B01MQWUXZS',
-    language: 'En'
+    language: 'En',
+    imageUrl: 'https://m.media-amazon.com/images/I/71NTi82uBEL._AC_SL1500_.jpg'
   },
   {
     name: 'Fitbit Charge 2 Heart Rate Fitness Wristband Black Large US Version 1 Count',
     asin: 'B01K9S260E',
-    language: 'En'
+    language: 'En',
+    imageUrl: 'https://m.media-amazon.com/images/I/81cp0NTn-EL._AC_SX425_.jpg'
   }
 ];
 
