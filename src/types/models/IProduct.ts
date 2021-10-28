@@ -1,4 +1,4 @@
-export interface IProductInfo {
+export interface IProduct {
   asin: string;
   lang: 'En';
 }

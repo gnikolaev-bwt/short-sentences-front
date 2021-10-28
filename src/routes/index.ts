@@ -1,29 +1,23 @@
-import { FC } from 'react';
 import { Home, ProductDetails } from 'src/components/pages';
 
-export enum Routes {
+export enum IRoutes {
   Home = '/',
   ProductDetails = '/:asin/:lang'
 }
 
-export const routes: IRoute[] = [
+export const routes = [
   {
-    path: Routes.Home,
+    path: IRoutes.Home,
     component: Home
   },
   {
-    path: Routes.ProductDetails,
+    path: IRoutes.ProductDetails,
     component: ProductDetails
   }
 ];
 
-export const getRouteUrl = (route: Routes, args: Record<string, string>) => {
+export const getRouteUrl = (route: IRoutes, args: Record<string, string>) => {
   return Object.entries(args).reduce((acc, [arg, value]) => {
     return acc.replace(`:${arg}`, value);
   }, route as string);
 };
-
-interface IRoute {
-  path: Routes;
-  component: FC<any>;
-}

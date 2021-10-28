@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { IProductInfo, ICluster, IProductDetails } from 'src/types';
+import axios, { CancelToken } from 'axios';
+import { IProduct, ICluster, IProductDetails, IFoundProduct } from 'src/types';
 
-const AMAZON_API_BASE = axios.create({
+const AMAZON_API = axios.create({
   baseURL: `https://${process.env.REACT_APP_RAPIDAPI_HOST}`,
   headers: {
     'x-rapidapi-host': process.env.REACT_APP_RAPIDAPI_HOST as string,
@@ -9,7 +9,7 @@ const AMAZON_API_BASE = axios.create({
   }
 });
 
-const OWN_API_BASE = axios.create({
+const OWN_API = axios.create({
   baseURL:
     window.location.hostname === 'localhost'
       ? 'http://192.168.0.75:90'
@@ -17,27 +17,40 @@ const OWN_API_BASE = axios.create({
 });
 
 export class ProductsService {
-  static getProductClusters = async (
-    asin: IProductInfo['asin'],
-    language: IProductInfo['lang']
-  ) => {
-    console.log('request started');
-    try {
-      const response = await OWN_API_BASE.get<ICluster[]>('/process', {
-        params: { asin, language }
-      });
-      return response.data;
-    } catch (error) {
-      return [];
-    }
-  };
-  static getProductDetails = async (asin: IProductInfo['asin']) => {
+  static getProductDetails = async (asin: IProduct['asin']) => {
     interface IResponse {
       result: IProductDetails[];
     }
-    const response = await AMAZON_API_BASE.get<IResponse>('/product-details', {
+    const response = await AMAZON_API.get<IResponse>('/product-details', {
       params: { asin, country: 'US' }
     });
     return response.data.result[0];
+  };
+  static searchForProduct = async (query: string) => {
+    interface IResponse {
+      result: IFoundProduct[];
+    }
+    const response = await AMAZON_API.get<IResponse>('/product-search', {
+      params: { query, country: 'US' }
+    });
+    return response.data.result;
+  };
+  static getProductClusters = async (
+    cancelToken: CancelToken,
+    asin: IProduct['asin'],
+    language: IProduct['lang']
+  ) => {
+    try {
+      interface IResponse {
+        data: ICluster[];
+      }
+      const response = await OWN_API.get<IResponse>('/process', {
+        cancelToken,
+        params: { asin, language }
+      });
+      return response.data.data;
+    } catch (error) {
+      return [];
+    }
   };
 }

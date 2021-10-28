@@ -1,15 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-import { productsSlice } from './slices/products.slice';
+import {
+  productListReducer,
+  productListActions
+} from './slices/productList.slice';
+import {
+  productDetailsActions,
+  productDetailsReducer
+} from './slices/productDetails.slice';
 
 export const store = configureStore({
   reducer: {
-    products: productsSlice.reducer
+    productList: productListReducer,
+    productDetails: productDetailsReducer
   }
 });
 
 export const actions = {
-  ...productsSlice.actions
+  ...productListActions,
+  ...productDetailsActions
 };
 
 export type AppState = ReturnType<typeof store.getState>;

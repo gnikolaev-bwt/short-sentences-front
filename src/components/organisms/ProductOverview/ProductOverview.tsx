@@ -6,13 +6,15 @@ import { CenteredBox, ImageBlock, RatingBlock } from 'src/components/atoms';
 import { truncateString } from 'src/utils';
 
 export const ProductOverview: FC<IProps> = (props) => {
-  const { details } = props;
+  const { isLoading, details } = props;
   return (
     <Card>
-      {!details ? (
+      {isLoading ? (
         <CenteredBox>
           <ScaleLoader />
         </CenteredBox>
+      ) : !details ? (
+        <span>Some error occured</span>
       ) : (
         <>
           <ImageBlock src={details.main_image} height='15rem' bgSize='50%' />
@@ -48,5 +50,6 @@ export const ProductOverview: FC<IProps> = (props) => {
 };
 
 interface IProps {
+  isLoading: boolean;
   details: IProductDetails | null;
 }

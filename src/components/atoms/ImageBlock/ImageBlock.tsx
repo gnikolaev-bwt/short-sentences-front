@@ -6,7 +6,10 @@ export const ImageBlock: FC<IProps> = (props) => {
     <div
       style={{
         height: height ?? '15rem',
-        background: src ? `url(${src}) no-repeat center` : '#2b2b2b',
+        backgroundImage: src ? `url(${src})` : 'none',
+        backgroundColor: src ? 'none' : '#2b2b2b',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
         backgroundSize: src ? bgSize ?? '50%' : '100%'
       }}
     />
