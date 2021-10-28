@@ -22,9 +22,14 @@ export class ProductsService {
     language: IProductInfo['lang']
   ) => {
     console.log('request started');
-    const response = await OWN_API_BASE.get<ICluster[]>('/process');
-    console.log(response);
-    return response.data;
+    try {
+      const response = await OWN_API_BASE.get<ICluster[]>('/process', {
+        params: { asin, language }
+      });
+      return response.data;
+    } catch (error) {
+      return [];
+    }
   };
   static getProductDetails = async (asin: IProductInfo['asin']) => {
     interface IResponse {
