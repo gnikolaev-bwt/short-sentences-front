@@ -1,0 +1,13 @@
+{
+  "short_name": "Short Sentences",
+  "name": "App to summarize Amazon products reviews",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}
