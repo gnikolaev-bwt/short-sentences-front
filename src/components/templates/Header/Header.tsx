@@ -4,10 +4,10 @@ import { Routes } from 'src/routes';
 
 export const Header = () => {
   return (
-    <Navbar bg='dark' variant='dark'>
+    <Navbar bg='dark' variant='dark' expand='sm'>
       <Container>
         <Navbar.Brand as={Link} to={Routes.Home}>
-          Short sentences
+          Short Sentences
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className='justify-content-end'>

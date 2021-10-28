@@ -10,22 +10,24 @@ import { RouteComponentProps } from 'react-router-dom';
 import { ProductsService } from 'src/api';
 
 export const ProductDetails: FC<IProps> = (props) => {
-  const { asin } = props.match.params;
+  const { asin, lang } = props.match.params;
   const [productDetails, setProductDetails] = useState<IProductDetails | null>(
     null
   );
-  const [productClusters, setProductClusters] = useState<ICluster[]>([]);
+  const [productClusters, setProductClusters] = useState<ICluster[] | null>(
+    null
+  );
 
   useEffect(() => {
     setProductDetails(null);
-    setProductClusters([]);
+    setProductClusters(null);
     ProductsService.getProductDetails(asin).then((data) => {
       setProductDetails(data);
     });
-    ProductsService.getProductClusters(asin).then((data) => {
+    ProductsService.getProductClusters(asin, lang).then((data) => {
       setProductClusters(data);
     });
-  }, [asin]);
+  }, [asin, lang]);
 
   return (
     <Container className='pb-5'>
@@ -34,9 +36,7 @@ export const ProductDetails: FC<IProps> = (props) => {
           <ProductOverview details={productDetails} />
         </Col>
         <Col md={7} lg={9}>
-          <div className='rounded-3 border p-4'>
-            <ClusterList clusters={productClusters} />
-          </div>
+          <ClusterList clusters={productClusters} />
         </Col>
       </Row>
       {productDetails && !!productDetails.variants.length && (
@@ -48,6 +48,7 @@ export const ProductDetails: FC<IProps> = (props) => {
 
 interface IRouteParams {
   asin: IProductInfo['asin'];
+  lang: IProductInfo['lang'];
 }
 
 interface IProps extends RouteComponentProps<IRouteParams> {}

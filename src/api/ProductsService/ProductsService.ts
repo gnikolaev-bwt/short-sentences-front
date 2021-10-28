@@ -1,26 +1,40 @@
-import axios, { Method } from 'axios';
-import { CLUSTERS_FOR_PRODUCT } from 'src/constants';
+import axios from 'axios';
 import { IProductInfo, ICluster, IProductDetails } from 'src/types';
-import { createAsyncPromise } from 'src/utils';
 
-const BASE_API_OPTIONS = {
-  method: 'GET' as Method,
-  url: `https://${process.env.REACT_APP_RAPIDAPI_HOST}/product-details`,
+const AMAZON_API_BASE = axios.create({
+  baseURL: `https://${process.env.REACT_APP_RAPIDAPI_HOST}`,
   headers: {
     'x-rapidapi-host': process.env.REACT_APP_RAPIDAPI_HOST as string,
     'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY as string
   }
-};
+});
+
+const OWN_API_BASE = axios.create({
+  baseURL:
+    window.location.hostname === 'localhost'
+      ? 'http://192.168.0.75:90'
+      : 'http://95.170.154.243:90'
+});
 
 export class ProductsService {
-  static getProductClusters = (asin: IProductInfo['asin']) => {
-    return createAsyncPromise<ICluster[]>(CLUSTERS_FOR_PRODUCT[asin], 2000);
+  static getProductClusters = async (
+    asin: IProductInfo['asin'],
+    language: IProductInfo['lang']
+  ) => {
+    console.log('request started');
+    const response = await OWN_API_BASE.get<ICluster[]>('/process', {
+      params: { asin, language }
+    });
+    console.log(response);
+    return response.data;
   };
-  static getProductDetails = async (asin: string) => {
-    const params = { asin, country: 'US' };
-    const options = { ...BASE_API_OPTIONS, params };
-    return await axios
-      .request<{ result: IProductDetails[] }>(options)
-      .then(({ data }) => data.result[0]);
+  static getProductDetails = async (asin: IProductInfo['asin']) => {
+    interface IResponse {
+      result: IProductDetails[];
+    }
+    const response = await AMAZON_API_BASE.get<IResponse>('/product-details', {
+      params: { asin, country: 'US' }
+    });
+    return response.data.result[0];
   };
 }

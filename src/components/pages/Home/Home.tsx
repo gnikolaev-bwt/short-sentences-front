@@ -51,7 +51,7 @@ export const Home: FC = () => {
       </Row>
       <form onSubmit={handleSubmit} autoComplete='off'>
         <Row className='g-2 mt-2'>
-          <Col md={8}>
+          <Col md={6} lg={8}>
             <FloatingLabel controlId='asin' label='Amazon URL or ASIN'>
               <Form.Control
                 placeholder='https://amazon.com'
@@ -66,7 +66,7 @@ export const Home: FC = () => {
               </Form.Control.Feedback>
             </FloatingLabel>
           </Col>
-          <Col md={2}>
+          <Col md={3} lg={2}>
             <FloatingLabel label='Select language'>
               <Form.Control
                 as='select'
@@ -77,7 +77,7 @@ export const Home: FC = () => {
               </Form.Control>
             </FloatingLabel>
           </Col>
-          <Col md={2}>
+          <Col md={3} lg={2}>
             <Button type='submit' variant='primary' className='w-100 h-100'>
               Summarize
             </Button>
