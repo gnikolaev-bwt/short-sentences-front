@@ -13,7 +13,7 @@ const OWN_API_BASE = axios.create({
   baseURL:
     window.location.hostname === 'localhost'
       ? 'http://192.168.0.75:90'
-      : 'http://95.170.154.243:90'
+      : 'https://95.170.154.243:90'
 });
 
 export class ProductsService {
@@ -22,9 +22,7 @@ export class ProductsService {
     language: IProductInfo['lang']
   ) => {
     console.log('request started');
-    const response = await OWN_API_BASE.get<ICluster[]>('/process', {
-      params: { asin, language }
-    });
+    const response = await OWN_API_BASE.get<ICluster[]>('/process');
     console.log(response);
     return response.data;
   };
