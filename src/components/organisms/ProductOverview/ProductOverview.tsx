@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { ScaleLoader } from 'react-spinners';
+import { BiErrorCircle } from 'react-icons/bi';
 import { Button, Card } from 'react-bootstrap';
 import { IProductDetails } from 'src/types';
 import { CarouselBlock, CenteredBox, RatingBlock } from 'src/components/atoms';
 import { truncateString } from 'src/utils';
-import { BiErrorCircle } from 'react-icons/all';
 
 export const ProductOverview: FC<IProps> = (props) => {
   const { details, isLoading, error } = props;

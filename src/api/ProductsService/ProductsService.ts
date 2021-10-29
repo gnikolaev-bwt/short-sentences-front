@@ -48,14 +48,18 @@ export class ProductsService {
   ) => {
     interface IResponse {
       data: ICluster[];
+      error: string;
+      status: string;
     }
     const options = {
       method: 'GET' as Method,
       url: '/process',
-      params: { asin, language: lang },
       cancelToken
     };
     const response = await OWN_API.request<IResponse>(options);
+    if (response.data.status !== 'OK') {
+      throw Error(response.data.error);
+    }
     return response.data.data;
   };
 }

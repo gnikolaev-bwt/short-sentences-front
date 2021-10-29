@@ -9,18 +9,19 @@ import styles from './ClusterDetails.module.css';
 export const ClusterDetails: FC<IProps> = (props) => {
   const { cluster } = props;
   const [isOpened, setIsOpened] = useState(false);
+  const [isSentencesEnrolled, setIsSentencesEnrolled] = useState(false);
 
-  const cardCN = cn(styles.card, { [styles.focused]: isOpened });
+  const sentencesToShow = isSentencesEnrolled ? cluster.sentences.length : 5;
 
   return (
-    <Card className={cardCN}>
+    <Card className={cn(styles.card, { [styles.focused]: isOpened })}>
       <div
         className={styles.cardHeader}
         onClick={() => setIsOpened((prev) => !prev)}
       >
         <div className='flex-grow-1'>
-          <Card.Title>{cluster.group}</Card.Title>
-          <Card.Text>{cluster['cluster description']}</Card.Text>
+          <Card.Title>{cluster['cluster description'][0]}</Card.Title>
+          <Card.Text>{cluster['cluster description'][1]}</Card.Text>
         </div>
         <div className='d-flex align-items-center mx-2'>
           <FaRegComment className='me-1' />
@@ -33,14 +34,19 @@ export const ClusterDetails: FC<IProps> = (props) => {
       <Collapse in={isOpened}>
         <div>
           <hr className={styles.hr} />
-          {cluster.sentences.map((sentence, i) => (
+          {cluster.sentences.slice(0, sentencesToShow).map((sentence, i) => (
             <div key={i}>
               <BiCommentEdit />
-              <span className='ms-1'>{sentence}</span>
+              <span className='ms-2'>{sentence}</span>
             </div>
           ))}
-          <Button variant='light' className='w-100 mt-3'>
-            View all
+          <hr className={styles.hr} />
+          <Button
+            variant='light'
+            className='w-100'
+            onClick={() => setIsSentencesEnrolled((prev) => !prev)}
+          >
+            {isSentencesEnrolled ? 'Hide' : 'Expand reviews'}
           </Button>
         </div>
       </Collapse>

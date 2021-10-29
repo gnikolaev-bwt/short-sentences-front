@@ -1,27 +1,30 @@
 import { FC, useEffect, useState } from 'react';
 import { ClockLoader } from 'react-spinners';
+import { BiErrorCircle } from 'react-icons/bi';
 import { ICluster } from 'src/types';
 import { getTimeFromSeconds } from 'src/utils';
 import { CenteredBox } from 'src/components/atoms';
 import { ClusterDetails } from 'src/components/molecules';
-import { BiErrorCircle } from 'react-icons/all';
 
 export const ClusterList: FC<IProps> = (props) => {
   const { clusters, isLoading, error } = props;
   const [secondsPassed, setSecondsPassed] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(
-      () => setSecondsPassed((prev) => prev + 1),
-      1000
-    );
-    return () => clearInterval(interval);
-  }, [clusters]);
+    if (isLoading) {
+      setSecondsPassed(0);
+      const interval = setInterval(() => {
+        setSecondsPassed((prev) => prev + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
 
   return (
     <div className='rounded-3 border p-4'>
       <h4>Review Summary</h4>
-      <div className='mt-3'>
+      <hr className='my-4' />
+      <div>
         {isLoading ? (
           <CenteredBox>
             <ClockLoader />
