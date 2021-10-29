@@ -1,5 +1,5 @@
-import axios, { CancelToken } from 'axios';
-import { IProduct, ICluster, IProductDetails, IFoundProduct } from 'src/types';
+import axios, { Method, CancelToken } from 'axios';
+import { ICluster, IProductDetails, IFoundProduct } from 'src/types';
 
 const AMAZON_API = axios.create({
   baseURL: `https://${process.env.REACT_APP_RAPIDAPI_HOST}`,
@@ -17,39 +17,48 @@ const OWN_API = axios.create({
 });
 
 export class ProductsService {
-  static getProductDetails = async (asin: IProduct['asin']) => {
+  static getProductDetails = async (asin: string) => {
     interface IResponse {
       result: IProductDetails[];
     }
-    const response = await AMAZON_API.get<IResponse>('/product-details', {
+    const options = {
+      method: 'GET' as Method,
+      url: '/product-details',
       params: { asin, country: 'US' }
-    });
+    };
+    const response = await AMAZON_API.request<IResponse>(options);
     return response.data.result[0];
   };
   static searchForProduct = async (query: string) => {
     interface IResponse {
       result: IFoundProduct[];
     }
-    const response = await AMAZON_API.get<IResponse>('/product-search', {
+    const options = {
+      method: 'GET' as Method,
+      url: '/product-search',
       params: { query, country: 'US' }
-    });
+    };
+    const response = await AMAZON_API.request<IResponse>(options);
     return response.data.result;
   };
   static getProductClusters = async (
     cancelToken: CancelToken,
-    asin: IProduct['asin'],
-    language: IProduct['lang']
+    asin: string,
+    lang: string
   ) => {
     try {
       interface IResponse {
         data: ICluster[];
       }
-      const response = await OWN_API.get<IResponse>('/process', {
-        cancelToken,
-        params: { asin, language }
-      });
+      const options = {
+        method: 'GET' as Method,
+        url: '/process',
+        params: { asin, language: lang },
+        cancelToken
+      };
+      const response = await OWN_API.request<IResponse>(options);
       return response.data.data;
-    } catch (error) {
+    } catch (e) {
       return [];
     }
   };

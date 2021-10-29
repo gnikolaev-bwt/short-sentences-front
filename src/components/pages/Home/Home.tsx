@@ -22,8 +22,13 @@ export const Home: FC = () => {
   const [query, setQuery] = useState('');
   const [lang, setLang] = useState('En');
 
-  const { isLoading, isShowingPopular, popularProducts, foundProducts } =
-    useAppSelector((state) => state.productList);
+  const {
+    popularProducts,
+    foundProducts,
+    isPopularLoading,
+    isSearchLoading,
+    isShowingPopular
+  } = useAppSelector((state) => state.productList);
 
   const { fetchPopularProducts, searchForProducts } = useAppActions();
 
@@ -80,7 +85,7 @@ export const Home: FC = () => {
               type='submit'
               variant='primary'
               className='w-100 h-100'
-              disabled={isLoading}
+              disabled={isSearchLoading}
             >
               Search
             </Button>
@@ -100,7 +105,7 @@ export const Home: FC = () => {
           <hr />
         </Col>
       </Row>
-      {isLoading ? (
+      {isPopularLoading || isSearchLoading ? (
         <CenteredBox>
           <HashLoader />
         </CenteredBox>

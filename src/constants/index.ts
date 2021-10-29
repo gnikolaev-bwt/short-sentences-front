@@ -15,7 +15,7 @@ export const POPULAR_PRODUCTS: IProduct[] = [
   }
 ];
 
-export const CLUSTERS_FOR_PRODUCT: Record<IProduct['asin'], ICluster[]> = {
+export const CLUSTERS_FOR_PRODUCT: Record<string, ICluster[]> = {
   B096BKFG57: [
     {
       'cluster description': 'good screen',

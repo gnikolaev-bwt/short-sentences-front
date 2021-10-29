@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { CancelToken } from 'axios';
 import { ProductsService } from 'src/api';
-import { IProductDetails, ICluster, IProduct } from 'src/types';
+import { IProductDetails, ICluster } from 'src/types';
 
 const initialState = {
   productDetails: null as IProductDetails | null,
@@ -16,18 +16,14 @@ const initialState = {
 
 const fetchProductDetails = createAsyncThunk(
   'productDetails/fetchProductDetails',
-  async (asin: IProduct['asin']) => {
+  async (asin: string) => {
     return ProductsService.getProductDetails(asin);
   }
 );
 
 const fetchProductClusters = createAsyncThunk(
   'productDetails/fetchProductClusters',
-  async (args: {
-    cancelToken: CancelToken;
-    asin: IProduct['asin'];
-    lang: IProduct['lang'];
-  }) => {
+  async (args: { cancelToken: CancelToken; asin: string; lang: string }) => {
     return ProductsService.getProductClusters(
       args.cancelToken,
       args.asin,

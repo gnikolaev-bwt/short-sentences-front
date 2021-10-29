@@ -11,7 +11,8 @@ const initialState = {
   popularProducts: [] as IProductDetails[],
   foundProducts: [] as IFoundProduct[],
   lastQuery: null as string | null,
-  isLoading: false,
+  isPopularLoading: false,
+  isSearchLoading: false,
   isShowingPopular: true
 };
 
@@ -49,18 +50,21 @@ const productListSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPopularProducts.pending.type]: (state) => {
-      state.isLoading = true;
+      state.isPopularLoading = true;
+      state.isSearchLoading = false;
+      state.isShowingPopular = true;
     },
     [fetchPopularProducts.fulfilled.type]: (
       state,
       action: PayloadAction<IProductDetails[]>
     ) => {
       state.popularProducts = action.payload;
-      state.isLoading = false;
-      state.isShowingPopular = true;
+      state.isPopularLoading = false;
     },
     [searchForProducts.pending.type]: (state) => {
-      state.isLoading = true;
+      state.isSearchLoading = true;
+      state.isPopularLoading = false;
+      state.isShowingPopular = false;
     },
     [searchForProducts.fulfilled.type]: (
       state,
@@ -68,8 +72,7 @@ const productListSlice = createSlice({
     ) => {
       state.foundProducts = action.payload.products;
       state.lastQuery = action.payload.query;
-      state.isLoading = false;
-      state.isShowingPopular = false;
+      state.isSearchLoading = false;
     }
   }
 });

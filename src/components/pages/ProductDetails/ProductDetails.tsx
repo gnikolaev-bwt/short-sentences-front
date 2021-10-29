@@ -4,7 +4,6 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { useAppActions, useAppSelector } from 'src/hooks';
-import { IProduct } from 'src/types';
 import {
   ProductOverview,
   ClusterList,
@@ -54,8 +53,8 @@ export const ProductDetails: FC<IProps> = (props) => {
 };
 
 interface IRouteProps {
-  asin: IProduct['asin'];
-  lang: IProduct['lang'];
+  asin: string;
+  lang: string;
 }
 
 interface IProps extends RouteComponentProps<IRouteProps> {}
