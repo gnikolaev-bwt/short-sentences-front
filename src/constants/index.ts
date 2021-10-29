@@ -6,7 +6,7 @@ export const POPULAR_PRODUCTS: IProduct[] = [
     lang: 'En'
   },
   {
-    asin: 'B01MQWUXZS',
+    asin: 'B07G853D6N',
     lang: 'En'
   },
   {

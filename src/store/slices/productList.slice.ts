@@ -13,34 +13,45 @@ const initialState = {
   lastQuery: null as string | null,
   isPopularLoading: false,
   isSearchLoading: false,
-  isShowingPopular: true
+  popularError: '',
+  searchError: ''
 };
 
 const fetchPopularProducts = createAsyncThunk(
   'productList/fetchPopularProducts',
-  async (_, { getState }) => {
-    const state = getState() as { productList: typeof initialState };
-    if (state.productList.popularProducts.length) {
-      return state.productList.popularProducts;
+  async (_, { rejectWithValue }) => {
+    try {
+      const productsDetailsPromises = POPULAR_PRODUCTS.map((product) =>
+        ProductsService.getProductDetails(product.asin)
+      );
+      return await Promise.all(productsDetailsPromises);
+    } catch (e) {
+      return rejectWithValue((e as Error).message);
     }
-    const productsDetailsPromises = POPULAR_PRODUCTS.map((product) =>
-      ProductsService.getProductDetails(product.asin)
-    );
-    return Promise.all(productsDetailsPromises);
+  },
+  {
+    condition: (_, { getState }) => {
+      const state = getState() as { productList: typeof initialState };
+      return !state.productList.popularProducts.length;
+    }
   }
 );
 
 const searchForProducts = createAsyncThunk(
   'productList/searchForProducts',
-  async (query: string, { getState }) => {
-    const state = getState() as { productList: typeof initialState };
-    if (state.productList.lastQuery === query) {
-      return { query, products: state.productList.foundProducts };
+  async (args: { query: string }, { rejectWithValue }) => {
+    try {
+      const products = await ProductsService.searchForProduct(args.query);
+      return { query: args.query, products };
+    } catch (e) {
+      return rejectWithValue((e as Error).message);
     }
-    return {
-      query,
-      products: await ProductsService.searchForProduct(query)
-    };
+  },
+  {
+    condition: (args: { query: string }, { getState }) => {
+      const state = getState() as { productList: typeof initialState };
+      return state.productList.lastQuery !== args.query;
+    }
   }
 );
 
@@ -51,8 +62,6 @@ const productListSlice = createSlice({
   extraReducers: {
     [fetchPopularProducts.pending.type]: (state) => {
       state.isPopularLoading = true;
-      state.isSearchLoading = false;
-      state.isShowingPopular = true;
     },
     [fetchPopularProducts.fulfilled.type]: (
       state,
@@ -63,8 +72,6 @@ const productListSlice = createSlice({
     },
     [searchForProducts.pending.type]: (state) => {
       state.isSearchLoading = true;
-      state.isPopularLoading = false;
-      state.isShowingPopular = false;
     },
     [searchForProducts.fulfilled.type]: (
       state,

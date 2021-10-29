@@ -21,14 +21,10 @@ export const Home: FC = () => {
   const history = useHistory();
   const [query, setQuery] = useState('');
   const [lang, setLang] = useState('En');
+  const [isShowingPopular, setIsShowingPopular] = useState(true);
 
-  const {
-    popularProducts,
-    foundProducts,
-    isPopularLoading,
-    isSearchLoading,
-    isShowingPopular
-  } = useAppSelector((state) => state.productList);
+  const { popularProducts, foundProducts, isPopularLoading, isSearchLoading } =
+    useAppSelector((state) => state.productList);
 
   const { fetchPopularProducts, searchForProducts } = useAppActions();
 
@@ -46,8 +42,10 @@ export const Home: FC = () => {
       });
       history.push(productDetailsUrl);
     } else if (query) {
-      searchForProducts(query);
+      setIsShowingPopular(false);
+      searchForProducts({ query });
     } else {
+      setIsShowingPopular(true);
       fetchPopularProducts();
     }
   };

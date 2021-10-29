@@ -46,20 +46,16 @@ export class ProductsService {
     asin: string,
     lang: string
   ) => {
-    try {
-      interface IResponse {
-        data: ICluster[];
-      }
-      const options = {
-        method: 'GET' as Method,
-        url: '/process',
-        params: { asin, language: lang },
-        cancelToken
-      };
-      const response = await OWN_API.request<IResponse>(options);
-      return response.data.data;
-    } catch (e) {
-      return [];
+    interface IResponse {
+      data: ICluster[];
     }
+    const options = {
+      method: 'GET' as Method,
+      url: '/process',
+      params: { asin, language: lang },
+      cancelToken
+    };
+    const response = await OWN_API.request<IResponse>(options);
+    return response.data.data;
   };
 }

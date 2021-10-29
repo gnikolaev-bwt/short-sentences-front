@@ -17,37 +17,44 @@ export const ProductDetails: FC<IProps> = (props) => {
     productDetails,
     productClusters,
     isDetailsLoading,
-    isClustersLoading
+    isClustersLoading,
+    detailsError,
+    clustersError
   } = useAppSelector((state) => state.productDetails);
 
   const { fetchProductDetails, fetchProductClusters } = useAppActions();
 
   useEffect(() => {
-    fetchProductDetails(asin);
+    fetchProductDetails({ asin });
     const clustersSource = axios.CancelToken.source();
     fetchProductClusters({ cancelToken: clustersSource.token, asin, lang });
     return () => clustersSource.cancel();
   }, [asin, lang]); // eslint-disable-line
+
+  const isShowingAnalogs =
+    !isDetailsLoading &&
+    productDetails?.variants &&
+    productDetails.variants.length > 1;
 
   return (
     <Container className='pb-5'>
       <Row className='g-4 mt-3'>
         <Col md={5} lg={3}>
           <ProductOverview
-            isLoading={isDetailsLoading}
             details={productDetails}
+            isLoading={isDetailsLoading}
+            error={detailsError}
           />
         </Col>
         <Col md={7} lg={9}>
           <ClusterList
-            isLoading={isClustersLoading}
             clusters={productClusters}
+            isLoading={isClustersLoading}
+            error={clustersError}
           />
         </Col>
       </Row>
-      {!isDetailsLoading && !!productDetails?.variants?.length && (
-        <ProductAnalogs details={productDetails} />
-      )}
+      {isShowingAnalogs && <ProductAnalogs details={productDetails} />}
     </Container>
   );
 };

@@ -2,22 +2,26 @@ import { FC } from 'react';
 import { ScaleLoader } from 'react-spinners';
 import { Button, Card } from 'react-bootstrap';
 import { IProductDetails } from 'src/types';
-import { CenteredBox, ImageBlock, RatingBlock } from 'src/components/atoms';
+import { CarouselBlock, CenteredBox, RatingBlock } from 'src/components/atoms';
 import { truncateString } from 'src/utils';
+import { BiErrorCircle } from 'react-icons/all';
 
 export const ProductOverview: FC<IProps> = (props) => {
-  const { isLoading, details } = props;
+  const { details, isLoading, error } = props;
   return (
     <Card>
       {isLoading ? (
         <CenteredBox>
           <ScaleLoader />
         </CenteredBox>
-      ) : !details ? (
-        <span>Some error occured</span>
+      ) : error || !details ? (
+        <CenteredBox>
+          <BiErrorCircle size='3rem' />
+          <div className='mt-2'>Some error occured on product load.</div>
+        </CenteredBox>
       ) : (
         <>
-          <ImageBlock src={details.main_image} height='15rem' bgSize='50%' />
+          <CarouselBlock images={details.images} height='17rem' bgSize='60%' />
           <Card.Body>
             <Card.Title>{details.title}</Card.Title>
             <hr />
@@ -50,6 +54,7 @@ export const ProductOverview: FC<IProps> = (props) => {
 };
 
 interface IProps {
-  isLoading: boolean;
   details: IProductDetails | null;
+  isLoading: boolean;
+  error: string;
 }

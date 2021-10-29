@@ -4,9 +4,10 @@ import { ICluster } from 'src/types';
 import { getTimeFromSeconds } from 'src/utils';
 import { CenteredBox } from 'src/components/atoms';
 import { ClusterDetails } from 'src/components/molecules';
+import { BiErrorCircle } from 'react-icons/all';
 
 export const ClusterList: FC<IProps> = (props) => {
-  const { isLoading, clusters } = props;
+  const { clusters, isLoading, error } = props;
   const [secondsPassed, setSecondsPassed] = useState(0);
 
   useEffect(() => {
@@ -29,8 +30,16 @@ export const ClusterList: FC<IProps> = (props) => {
               Time passed: {getTimeFromSeconds(secondsPassed)}
             </div>
           </CenteredBox>
+        ) : error ? (
+          <CenteredBox>
+            <BiErrorCircle size='3rem' />
+            <div className='mt-2'>Some error occured on reviews load.</div>
+          </CenteredBox>
         ) : !clusters.length ? (
-          <span>No reviews found for this product</span>
+          <CenteredBox>
+            <BiErrorCircle size='3rem' />
+            <div className='mt-2'>No reviews found for this product.</div>
+          </CenteredBox>
         ) : (
           clusters.map((cluster, i) => (
             <ClusterDetails key={i} cluster={cluster} />
@@ -42,6 +51,7 @@ export const ClusterList: FC<IProps> = (props) => {
 };
 
 interface IProps {
-  isLoading: boolean;
   clusters: ICluster[];
+  isLoading: boolean;
+  error: string;
 }

@@ -8,7 +8,7 @@ export const ProductsSearch: FC<IProps> = (props) => {
   const { foundProducts } = props;
   return (
     <Row className={styles.searchRow}>
-      {foundProducts.slice(0, 10).map((product, i) => (
+      {foundProducts.slice(0, 12).map((product, i) => (
         <Col key={i} md={3} className='mt-3'>
           <ShortInfoCard
             asin={product.asin}

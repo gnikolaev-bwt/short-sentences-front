@@ -11,24 +11,34 @@ const initialState = {
   productDetails: null as IProductDetails | null,
   productClusters: [] as ICluster[],
   isDetailsLoading: false,
-  isClustersLoading: false
+  isClustersLoading: false,
+  detailsError: '',
+  clustersError: ''
 };
 
 const fetchProductDetails = createAsyncThunk(
   'productDetails/fetchProductDetails',
-  async (asin: string) => {
-    return ProductsService.getProductDetails(asin);
+  async (args: { asin: string }, { rejectWithValue }) => {
+    try {
+      return await ProductsService.getProductDetails(args.asin);
+    } catch (e) {
+      return rejectWithValue((e as Error).message);
+    }
   }
 );
 
 const fetchProductClusters = createAsyncThunk(
   'productDetails/fetchProductClusters',
-  async (args: { cancelToken: CancelToken; asin: string; lang: string }) => {
-    return ProductsService.getProductClusters(
-      args.cancelToken,
-      args.asin,
-      args.lang
-    );
+  async (
+    args: { cancelToken: CancelToken; asin: string; lang: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { cancelToken, asin, lang } = args;
+      return await ProductsService.getProductClusters(cancelToken, asin, lang);
+    } catch (e) {
+      return rejectWithValue((e as Error).message);
+    }
   }
 );
 
@@ -46,6 +56,14 @@ const productDetailsSlice = createSlice({
     ) => {
       state.productDetails = action.payload;
       state.isDetailsLoading = false;
+      state.detailsError = '';
+    },
+    [fetchProductDetails.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.isDetailsLoading = false;
+      state.detailsError = action.payload;
     },
     [fetchProductClusters.pending.type]: (state) => {
       state.isClustersLoading = true;
@@ -56,6 +74,14 @@ const productDetailsSlice = createSlice({
     ) => {
       state.productClusters = action.payload;
       state.isClustersLoading = false;
+      state.clustersError = '';
+    },
+    [fetchProductClusters.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.isClustersLoading = false;
+      state.clustersError = action.payload;
     }
   }
 });
