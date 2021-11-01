@@ -13,7 +13,7 @@ const OWN_API = axios.create({
   baseURL:
     window.location.hostname === 'localhost'
       ? 'http://192.168.0.75:90'
-      : 'http://95.170.154.243:90'
+      : 'https://cors-everywhere-me.herokuapp.com/http://95.170.154.243:90'
 });
 
 export class ProductsService {
