@@ -1,7 +1,7 @@
 import axios, { Method, CancelToken } from 'axios';
 import { ICluster, IProductDetails, IFoundProduct } from 'src/types';
 
-const CORS_EVERYWHERE_URL = 'https://cors-everywhere-me.herokuapp.com/';
+const CORS_ANYWHERE_URL = 'https://corsanywhere.herokuapp.com/';
 
 const AMAZON_API = axios.create({
   baseURL: `https://${process.env.REACT_APP_RAPIDAPI_HOST}`,
@@ -15,10 +15,7 @@ const OWN_API = axios.create({
   baseURL:
     window.location.hostname === 'localhost'
       ? 'http://192.168.0.75:90'
-      : `${CORS_EVERYWHERE_URL}http://95.170.154.243:90`,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest'
-  }
+      : `${CORS_ANYWHERE_URL}http://95.170.154.243:90`
 });
 
 export class ProductsService {
