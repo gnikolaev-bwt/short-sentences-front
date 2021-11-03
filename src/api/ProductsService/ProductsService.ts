@@ -12,7 +12,7 @@ const AMAZON_API = axios.create({
 });
 
 const OWN_API = axios.create({
-  baseURL: IS_LOCALHOST ? 'https://192.168.0.75' : 'https://95.170.154.245'
+  baseURL: IS_LOCALHOST ? 'http://192.168.0.75' : 'https://short-sentences.xyz'
 });
 
 export class ProductsService {
