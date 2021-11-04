@@ -53,6 +53,7 @@ export class ProductsService {
     const options = {
       method: 'GET' as Method,
       url: '/process',
+      params: { asin, language: lang },
       cancelToken
     };
     const response = await OWN_API.request<IResponse>(options);

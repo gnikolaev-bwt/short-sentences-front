@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { routes } from 'src/routes';
 import { Layout } from '../Layout/Layout';
 
 export const AppRouter: FC = () => {
   return (
-    <HashRouter basename='/'>
+    <BrowserRouter>
       <Switch>
         {routes.map((route, i) => (
           <Route
@@ -23,6 +23,6 @@ export const AppRouter: FC = () => {
           />
         ))}
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
