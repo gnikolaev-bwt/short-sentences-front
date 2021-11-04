@@ -19,11 +19,11 @@ export const ClusterDetails: FC<IProps> = (props) => {
         className={styles.cardHeader}
         onClick={() => setIsOpened((prev) => !prev)}
       >
-        <div className='flex-grow-1'>
+        <div className='flex-grow-1 me-3'>
           <Card.Title>{cluster['cluster description'][0]}</Card.Title>
           <Card.Text>{cluster['cluster description'][1]}</Card.Text>
         </div>
-        <div className='d-flex align-items-center mx-2'>
+        <div className='d-flex align-items-center mx-3'>
           <FaRegComment className='me-1' />
           <span className='lead'>{cluster.statements}</span>
         </div>
