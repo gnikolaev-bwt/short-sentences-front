@@ -35,12 +35,14 @@ export const ClusterList: FC<IProps> = (props) => {
           </CenteredBox>
         ) : error ? (
           <CenteredBox>
-            <BiErrorCircle size='3rem' />
-            <div className='mt-2'>Some error occured on reviews load.</div>
+            <BiErrorCircle size='48px' />
+            <div className='mt-2'>
+              Some error occurred on reviews load: <br /> {error}
+            </div>
           </CenteredBox>
         ) : !clusters.length ? (
           <CenteredBox>
-            <BiErrorCircle size='3rem' />
+            <BiErrorCircle size='48px' />
             <div className='mt-2'>No reviews found for this product.</div>
           </CenteredBox>
         ) : (

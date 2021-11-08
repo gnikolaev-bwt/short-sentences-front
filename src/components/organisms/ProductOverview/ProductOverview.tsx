@@ -16,7 +16,7 @@ export const ProductOverview: FC<IProps> = (props) => {
         </CenteredBox>
       ) : error || !details ? (
         <CenteredBox>
-          <BiErrorCircle size='3rem' />
+          <BiErrorCircle size='48px' />
           <div className='mt-2'>Some error occured on product load.</div>
         </CenteredBox>
       ) : (

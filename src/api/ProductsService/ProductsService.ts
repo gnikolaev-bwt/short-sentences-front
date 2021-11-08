@@ -1,8 +1,6 @@
 import axios, { Method, CancelToken } from 'axios';
 import { ICluster, IProductDetails, IFoundProduct } from 'src/types';
 
-const IS_LOCALHOST = window.location.hostname === 'localhost';
-
 const AMAZON_API = axios.create({
   baseURL: `https://${process.env.REACT_APP_RAPIDAPI_HOST}`,
   headers: {
@@ -12,7 +10,7 @@ const AMAZON_API = axios.create({
 });
 
 const OWN_API = axios.create({
-  baseURL: IS_LOCALHOST ? 'http://192.168.0.75' : 'https://short-sentences.xyz'
+  baseURL: 'https://short-sentences.xyz'
 });
 
 export class ProductsService {
