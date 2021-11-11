@@ -17,7 +17,10 @@ export const ProductOverview: FC<IProps> = (props) => {
       ) : error || !details ? (
         <CenteredBox>
           <BiErrorCircle size='48px' />
-          <div className='mt-2'>Some error occured on product load.</div>
+          <div className='mt-2'>
+            Some error occurred on product load. Please, check if product with
+            this asin exists or try to visit this page later.
+          </div>
         </CenteredBox>
       ) : (
         <>

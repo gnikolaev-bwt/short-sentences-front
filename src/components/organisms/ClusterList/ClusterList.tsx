@@ -28,7 +28,9 @@ export const ClusterList: FC<IProps> = (props) => {
         {isLoading ? (
           <CenteredBox>
             <ClockLoader />
-            <div className='mt-2'>It takes about 1 minute to load reviews</div>
+            <div className='mt-2'>
+              It takes about 3 minutes to load reviews
+            </div>
             <div className='mt-1'>
               Time passed: {getTimeFromSeconds(secondsPassed)}
             </div>
