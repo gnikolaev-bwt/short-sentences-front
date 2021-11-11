@@ -55,9 +55,8 @@ export class ProductsService {
       cancelToken
     };
     const response = await OWN_API.request<IResponse>(options);
-    console.log(response.data);
     if (response.data.status !== 'OK') {
-      throw Error(response.data.error);
+      throw new Error(`APP_ERROR ${response.data.error}`);
     }
     return response.data.data;
   };

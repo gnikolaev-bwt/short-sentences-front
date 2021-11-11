@@ -35,17 +35,17 @@ export const ClusterList: FC<IProps> = (props) => {
               Time passed: {getTimeFromSeconds(secondsPassed)}
             </div>
           </CenteredBox>
+        ) : error && error.startsWith('APP_ERROR') ? (
+          <CenteredBox>
+            <BiErrorCircle size='48px' />
+            <div className='mt-2'>{error.substring(10)}</div>
+          </CenteredBox>
         ) : error ? (
           <CenteredBox>
             <BiErrorCircle size='48px' />
             <div className='mt-2'>
               Some error occurred on reviews load: <br /> {error}
             </div>
-          </CenteredBox>
-        ) : !clusters.length ? (
-          <CenteredBox>
-            <BiErrorCircle size='48px' />
-            <div className='mt-2'>No reviews found for this product.</div>
           </CenteredBox>
         ) : (
           clusters.map((cluster, i) => (
