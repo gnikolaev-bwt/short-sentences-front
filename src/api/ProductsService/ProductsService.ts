@@ -10,7 +10,7 @@ const AMAZON_API = axios.create({
 });
 
 const OWN_API = axios.create({
-  baseURL: 'https://short-sentences.xyz'
+  baseURL: 'https://short-sentences.site'
 });
 
 export class ProductsService {
@@ -24,6 +24,7 @@ export class ProductsService {
       params: { asin, country: 'US' }
     };
     const response = await AMAZON_API.request<IResponse>(options);
+    console.log(response.data.result);
     return response.data.result[0];
   };
   static searchForProduct = async (query: string) => {
